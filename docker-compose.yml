@@ -1,0 +1,19 @@
+version: "2"
+services:
+
+  # AWS Observability Collector
+  aws-ot-collector:
+    image: aottestbed/awscollector:v0.1.11
+    command: --config /config/collector-config-local.yml
+    environment:
+      - AWS_ACCESS_KEY_ID=##############
+      - AWS_SECRET_ACCESS_KEY=##############
+      - AWS_REGION=us-east-2
+    volumes:
+      - ~/.aws:/home/aoc/.aws
+      - .:/config
+    ports:
+      - "1777:1777"   # pprof extension
+      - "55679:55679" # zpages extension
+      - "4317:4317" # OTLP receiver
+      - "13133"       # health_check
